@@ -1,0 +1,55 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="GW00pNY6riHPn4-Uxl9c" name="Página-1">
+    <mxGraphModel dx="1186" dy="838" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="internet" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;fontStyle=1" value="Internet" vertex="1">
+          <mxGeometry height="60" width="180" x="360" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="vmnet8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=13;fontStyle=1;dashed=1" value="VMware VMnet8 — NAT Network&#xa;192.168.19.0/24" vertex="1">
+          <mxGeometry height="70" width="260" x="320" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="pfsense" parent="1" style="swimlane;html=1;startSize=40;fillColor=#d5e8d4;strokeColor=#82b366;swimlaneFillColor=#f2faf1;fontSize=16;fontStyle=1" value="pfSense" vertex="1">
+          <mxGeometry height="200" width="280" x="310" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="wan" parent="pfsense" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12" value="WAN&#xa;DHCP — 192.168.19.131/24" vertex="1">
+          <mxGeometry height="55" width="240" x="20" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="lanif" parent="pfsense" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12" value="LAN&#xa;192.168.1.1/24" vertex="1">
+          <mxGeometry height="55" width="240" x="20" y="128" as="geometry" />
+        </mxCell>
+        <mxCell id="vmnet1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=13;fontStyle=1;dashed=1" value="VMware VMnet1 — Host-Only&#xa;Internal LAN&#xa;192.168.1.0/24" vertex="1">
+          <mxGeometry height="80" width="260" x="320" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="winsrv" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#3d5f8a;fontColor=#ffffff;fontSize=13" value="&lt;b&gt;Windows Server&lt;/b&gt;&lt;br&gt;DC01&lt;br&gt;&lt;br&gt;AD DS&lt;br&gt;DNS&lt;br&gt;DHCP&lt;br&gt;&lt;br&gt;192.168.1.10" vertex="1">
+          <mxGeometry height="160" width="210" x="40" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="win11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#3d5f8a;fontColor=#ffffff;fontSize=13" value="&lt;b&gt;Windows 11 Client&lt;/b&gt;&lt;br&gt;&lt;br&gt;DHCP" vertex="1">
+          <mxGeometry height="160" width="210" x="345" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="ubuntu" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13" value="&lt;b&gt;Ubuntu Server&lt;/b&gt;&lt;br&gt;Linux&lt;br&gt;&lt;br&gt;192.168.1.101" vertex="1">
+          <mxGeometry height="160" width="210" x="650" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="internet" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;strokeColor=#666666;endArrow=block;" target="vmnet8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="vmnet8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;strokeColor=#666666;endArrow=block;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="wan">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="lanif" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;strokeColor=#666666;endArrow=block;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="vmnet1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="vmnet1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;strokeColor=#666666;endArrow=block;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="winsrv">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="vmnet1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;strokeColor=#666666;endArrow=block;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="win11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="vmnet1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;strokeColor=#666666;endArrow=block;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="ubuntu">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

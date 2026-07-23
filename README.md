@@ -1,200 +1,182 @@
 # Enterprise Home Lab
 
-A realistic enterprise Windows infrastructure laboratory built from scratch to simulate a small production environment.
+A realistic enterprise home lab designed to develop practical skills in Windows infrastructure, system administration and cybersecurity.
 
-The primary objective of this project is to gain practical experience with enterprise infrastructure technologies while documenting every implementation step. Rather than focusing on isolated services, this laboratory aims to recreate a realistic Windows domain environment that can be expanded over time with additional security, monitoring and administration solutions.
+The environment simulates a small enterprise network using VMware, pfSense, Windows Server, Active Directory and Ubuntu Server. Throughout this project, security best practices, Windows hardening techniques and technical documentation are implemented to create a maintainable and scalable enterprise environment.
 
 ---
 
-# Project Objectives
-
-The main objectives of this project are:
+# Project Goals
 
 - Build a realistic enterprise infrastructure
-- Deploy and manage Active Directory Domain Services
-- Configure DNS and DHCP services
-- Implement and manage Group Policy Objects (GPOs)
-- Apply Windows security hardening techniques
-- Document every implementation step
-- Create a reusable platform for future infrastructure and cybersecurity projects
-
----
-
-# Lab Architecture
-
-> **Architecture diagram will be added here**
+- Deploy and manage Active Directory
+- Configure enterprise networking using pfSense
+- Implement Windows security hardening
+- Apply Group Policy administration
+- Document every deployment step
+- Create a reusable cybersecurity laboratory
 
 ---
 
 # Infrastructure Overview
 
 | Component | Technology |
-|------------|------------|
+|-----------|------------|
 | Hypervisor | VMware Workstation Pro |
 | Firewall | pfSense |
 | Domain Controller | Windows Server |
 | Client | Windows 11 Enterprise |
 | Linux Server | Ubuntu Server |
-| Directory Service | Active Directory |
+| Directory Service | Active Directory Domain Services |
 | Name Resolution | DNS |
 | Address Assignment | DHCP |
+| Policy Management | Group Policy |
 
 ---
 
-# Technologies Used
+# Infrastructure Diagrams
 
-## Virtualization
+## Enterprise Architecture
 
-- VMware Workstation Pro
-
-## Networking
-
-- pfSense
-- NAT Networking
-- Host-Only Networking
-
-## Microsoft Technologies
-
-- Windows Server
-- Windows 11 Enterprise
-- Active Directory
-- Group Policy
-- DNS
-- DHCP
-- PowerShell
-
-## Linux
-
-- Ubuntu Server
+![Enterprise Architecture](diagrams/architecture.png)
 
 ---
 
-# Virtual Machines
+## Network Topology
 
-| Virtual Machine | Purpose |
-|-----------------|---------|
-| pfSense | Firewall and network gateway |
-| Windows Server | Domain Controller |
-| Windows 11 Enterprise | Domain client |
-| Ubuntu Server | Linux server for future services |
+![Network Topology](diagrams/network.png)
 
 ---
 
-# Implemented Features
+## Active Directory Structure
 
-| Feature | Status |
-|----------|--------|
-| VMware Infrastructure | ✅ |
-| Enterprise Network | ✅ |
-| pfSense Firewall | ✅ |
-| Windows Server | ✅ |
-| Active Directory | ✅ |
-| DNS | ✅ |
-| DHCP | ✅ |
-| Windows Client | ✅ |
-| Ubuntu Server | ✅ |
-| Group Policy | ✅ |
-| Shared Folder Mapping | ✅ |
-| Desktop Wallpaper Policy | ✅ |
-| Screen Lock Policy | ✅ |
-| Command Prompt Restriction | ✅ |
-| Password Policy | ✅ |
-| Account Lockout Policy | ✅ |
-| SMB Signing | ✅ |
-| SMBv1 Disabled | ✅ |
-| NTLM Hardening | ✅ |
-| LDAP Signing | ✅ |
-| PowerShell Logging | ✅ |
-| Advanced Auditing | ✅ |
+![Active Directory Structure](diagrams/active-directory.png)
 
 ---
 
-# Security Baseline
+## Group Policy Structure
 
-The following security controls have been implemented:
+![Group Policy Structure](diagrams/group-policy.png)
 
-- Password Policy
-- Account Lockout Policy
-- SMB Signing
-- SMBv1 Disabled
-- NTLM Hardening
-- LDAP Signing
-- PowerShell Module Logging
-- PowerShell Script Block Logging
-- Advanced Windows Auditing
-- Command Prompt Restriction
+---
+
+# Project Structure
+
+```
+HOMELAB-ENTERPRISE
+│
+├── diagrams/
+│
+├── modules/
+│   ├── 00-Overview
+│   ├── 01-VMware
+│   ├── 02-pfSense
+│   ├── 03-Active-Directory
+│   ├── 04-DNS
+│   ├── 05-DHCP
+│   ├── 06-Group-Policy
+│   ├── 07-Windows-Hardening
+│   ├── 08-Ubuntu
+│   └── 09-Troubleshooting
+│
+├── CHANGELOG.md
+├── LICENSE
+├── README.md
+└── ROADMAP.md
+```
 
 ---
 
 # Project Modules
 
 | Module | Description |
-|----------|-------------|
-| 00 - Overview | General project overview |
-| 01 - VMware | Virtual infrastructure |
-| 02 - pfSense | Enterprise firewall |
-| 03 - Active Directory | Domain infrastructure |
-| 04 - DNS | Name resolution |
-| 05 - DHCP | IP address management |
+|---------|-------------|
+| 00 - Overview | Project overview and architecture |
+| 01 - VMware | Virtualization platform configuration |
+| 02 - pfSense | Firewall, networking and routing |
+| 03 - Active Directory | Domain Services deployment |
+| 04 - DNS | Name resolution infrastructure |
+| 05 - DHCP | Dynamic IP address management |
 | 06 - Group Policy | Enterprise policy management |
-| 07 - Windows Hardening | Security configuration |
-| 08 - Ubuntu | Linux server |
-| 09 - Troubleshooting | Issues encountered and solutions |
+| 07 - Windows Hardening | Security configuration and hardening |
+| 08 - Ubuntu | Linux server deployment |
+| 09 - Troubleshooting | Deployment issues and solutions |
 
 ---
 
-# Current Project Status
+# Technologies
 
-The first version of the laboratory is complete and includes the core services required for a small enterprise environment.
-
-The infrastructure is designed to support future expansion while maintaining clear documentation and reproducible configurations.
+- VMware Workstation Pro
+- pfSense
+- Windows Server
+- Windows 11 Enterprise
+- Ubuntu Server
+- Active Directory Domain Services
+- DNS
+- DHCP
+- Group Policy
+- PowerShell
 
 ---
 
-# Future Improvements
+# Security Features
 
-The laboratory will continue to evolve over time.
+- SMB Signing
+- SMBv1 Disabled
+- NTLM Hardening
+- LDAP Signing
+- PowerShell Module Logging
+- PowerShell Script Block Logging
+- Windows Auditing
+- AutoRun Disabled
 
-Planned additions include:
+---
 
+# Documentation
+
+Every infrastructure component is fully documented, including:
+
+- Architecture
+- Installation
+- Configuration
+- Validation
+- Troubleshooting
+- Lessons Learned
+
+---
+
+# Roadmap
+
+Future improvements include:
+
+- Wazuh
 - Sysmon
 - Windows Event Forwarding (WEF)
-- Wazuh
 - Active Directory Certificate Services (AD CS)
+- Microsoft LAPS
 - Docker
-- Microsoft Defender Configuration
-- Additional Windows Hardening
 - Linux Hardening
-- Monitoring and Logging
+- Security Monitoring
+- Additional Enterprise Services
+
+For the complete roadmap, see:
+
+**[ROADMAP.md](ROADMAP.md)**
 
 ---
 
-# Skills Demonstrated
+# Changelog
 
-This project demonstrates practical experience with:
+Project changes are documented in:
 
-- VMware Virtualization
-- Enterprise Networking
-- Windows Server Administration
-- Active Directory
-- DNS Administration
-- DHCP Administration
-- Group Policy Management
-- Windows Security Hardening
-- PowerShell
-- Technical Documentation
-
----
-
-# References
-
-- Microsoft Learn
-- VMware Documentation
-- pfSense Documentation
-- Ubuntu Documentation
+**[CHANGELOG.md](CHANGELOG.md)**
 
 ---
 
 # License
 
-This project is licensed under the MIT License.
+This project is released under the MIT License.
+
+See:
+
+**[LICENSE](LICENSE)**

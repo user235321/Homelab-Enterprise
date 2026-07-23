@@ -1,0 +1,64 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="jUvBrLEgt0L-IO7f1Y0d" name="Página-1">
+    <mxGraphModel dx="1878" dy="1327" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="570" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ouDom" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#3d5f8a;fontColor=#ffffff;fontSize=16;fontStyle=1" value="home.lab" vertex="1">
+          <mxGeometry height="70" width="300" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ouDC" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;fontStyle=1" value="Domain Controllers&#xa;(OU)" vertex="1">
+          <mxGeometry height="70" width="560" x="380" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ouEmp" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;fontStyle=1" value="Employees&#xa;(OU)" vertex="1">
+          <mxGeometry height="70" width="420" x="1030" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ouIT" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;fontStyle=1" value="IT&#xa;(OU)" vertex="1">
+          <mxGeometry height="60" width="240" x="1120" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="ouRes" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;fontStyle=1" value="Restricted Users&#xa;(OU)" vertex="1">
+          <mxGeometry height="70" width="300" x="1540" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=12;spacingTop=8;fontSize=13" value="&lt;b&gt;Default Domain Policy&lt;/b&gt;&lt;br&gt;&lt;br&gt;• Password Policy&lt;br&gt;• Account Lockout Policy" vertex="1">
+          <mxGeometry height="150" width="270" x="55" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="g2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=12;spacingTop=8;fontSize=13" value="&lt;b&gt;Default Domain Controllers Policy&lt;/b&gt;&lt;br&gt;&lt;br&gt;• Definições base dos DCs" vertex="1">
+          <mxGeometry height="150" width="255" x="395" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="g3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=12;spacingTop=8;fontSize=13" value="&lt;b&gt;GPO - Domain Controllers&lt;/b&gt;&lt;br&gt;&lt;br&gt;• SMB Signing&lt;br&gt;• NTLM Hardening&lt;br&gt;• LDAP Signing&lt;br&gt;• PowerShell Logging&lt;br&gt;• Advanced Auditing" vertex="1">
+          <mxGeometry height="150" width="255" x="670" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="g4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=12;spacingTop=8;fontSize=13" value="&lt;b&gt;GPO - Desktop Settings&lt;/b&gt;&lt;br&gt;&lt;br&gt;• Wallpaper&lt;br&gt;• Screen Lock" vertex="1">
+          <mxGeometry height="150" width="230" x="1005" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="g5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=12;spacingTop=8;fontSize=13" value="&lt;b&gt;GPO - IT Users&lt;/b&gt;&lt;br&gt;&lt;br&gt;• Definições dos utilizadores de IT" vertex="1">
+          <mxGeometry height="150" width="230" x="1245" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="g6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;verticalAlign=top;spacingLeft=12;spacingTop=8;fontSize=13" value="&lt;b&gt;GPO - CMD Restriction&lt;/b&gt;&lt;br&gt;&lt;br&gt;• Bloqueio da linha de comandos" vertex="1">
+          <mxGeometry height="150" width="270" x="1555" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="l1" edge="1" parent="1" source="ouDom" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;strokeColor=#666666;endArrow=block;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="g1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lEmpIT" edge="1" parent="1" source="ouEmp" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;strokeColor=#666666;endArrow=block;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="ouIT">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2" edge="1" parent="1" source="g2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;strokeColor=#666666;endArrow=block;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" target="ouDC">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l3" edge="1" parent="1" source="g3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;strokeColor=#666666;endArrow=block;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" target="ouDC">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l4" edge="1" parent="1" source="g4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;strokeColor=#666666;endArrow=block;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" target="ouIT">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l5" edge="1" parent="1" source="g5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;strokeColor=#666666;endArrow=block;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" target="ouIT">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l6" edge="1" parent="1" source="g6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;strokeColor=#666666;endArrow=block;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="ouRes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
