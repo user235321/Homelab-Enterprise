@@ -85,7 +85,9 @@ HOMELAB-ENTERPRISE
 │   ├── 06-Group-Policy
 │   ├── 07-Windows-Hardening
 │   ├── 08-Ubuntu
-│   └── 09-Troubleshooting
+│   ├── 09-Troubleshooting
+│   ├── 10-Wazuh
+│   └── 11-Attack-Scenarios
 │
 ├── CHANGELOG.md
 ├── LICENSE
@@ -107,8 +109,10 @@ HOMELAB-ENTERPRISE
 | 05 - DHCP | DHCP server configuration and address management |
 | 06 - Group Policy | Group Policy deployment and administration |
 | 07 - Windows Hardening | Windows security hardening and auditing |
-| 08 - Ubuntu | Ubuntu Server deployment and configuration |
+| 08 - Ubuntu | Ubuntu storage server (RAID 5 + LVM + NFS) |
 | 09 - Troubleshooting | Common deployment issues and solutions |
+| 10 - Wazuh | Centralised logging, detection and response |
+| 11 - Attack Scenarios | Kali intrusion testing and defence validation |
 
 ---
 
