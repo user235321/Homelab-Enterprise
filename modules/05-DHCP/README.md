@@ -2,19 +2,29 @@
 
 ## Overview
 
-The Dynamic Host Configuration Protocol (DHCP) service was deployed to automate IP address assignment within the laboratory. By centralizing network configuration, DHCP simplifies the deployment of new devices and ensures consistent network settings across the environment.
+DHCP automates IP address assignment within the laboratory. In this environment the
+DHCP service runs on the **pfSense firewall**, on its LAN interface, and is responsible
+for handing out IP addresses and network parameters to every device on the internal
+network.
 
-The DHCP role is hosted on the Domain Controller, providing automatic IP configuration for all domain-joined systems.
+Centralising DHCP on the firewall keeps the Windows Domain Controller focused on
+identity services (Active Directory and DNS) and avoids running two DHCP servers on the
+same segment.
 
 ---
 
-# Why DHCP
+# Why DHCP on pfSense
 
-DHCP eliminates the need to manually configure network settings on each device.
+DHCP eliminates the need to configure network settings manually on each device.
 
-By automatically assigning IP addresses and network parameters, DHCP reduces configuration errors and improves the scalability of the infrastructure.
+Running it on pfSense (rather than on the Domain Controller) was a deliberate choice:
 
-Within this laboratory, DHCP provides consistent network configuration while supporting the Active Directory environment.
+- pfSense already owns the LAN gateway, so it is the natural place to serve addresses.
+- It keeps address assignment and routing in one place.
+- It avoids having a second DHCP server on the internal network, which would cause
+  clients to receive inconsistent configuration.
+
+Only one DHCP server is active on the internal network, which prevents address conflicts.
 
 ---
 
@@ -22,35 +32,39 @@ Within this laboratory, DHCP provides consistent network configuration while sup
 
 ```
                     +----------------------+
-                    | Windows Server       |
+                    | pfSense (LAN)        |
                     | DHCP Server          |
+                    | 192.168.1.1          |
                     +----------+-----------+
                                |
-               Assigns network configuration
+               Assigns IP, gateway and DNS
                                |
          +---------------------+----------------------+
          |                                            |
          v                                            v
 +----------------------+                 +----------------------+
-| Windows 11 Client    |                 | Ubuntu Server        |
+| Windows 11 Client    |                 | Other LAN devices    |
 +----------------------+                 +----------------------+
 ```
+
+Infrastructure servers that must keep a fixed address (the Domain Controller, the
+monitoring server and the storage server) use **static IP addresses** outside the
+dynamic range, rather than DHCP.
 
 ---
 
 # DHCP Scope
 
-A single DHCP scope was configured for the internal network.
+A single DHCP scope was configured on the pfSense LAN interface.
 
 | Property | Value |
 |----------|-------|
-| Scope Name | Internal LAN |
 | Network | 192.168.1.0/24 |
-| Default Gateway | 192.168.1.1 |
-| DNS Server | Domain Controller |
+| Default Gateway | 192.168.1.1 (pfSense LAN) |
+| DNS Server | Domain Controller (192.168.1.10) |
 | Domain Name | home.lab |
 
-The scope provides IP addresses to all devices connected to the internal network.
+The scope provides addresses to client devices on the internal network.
 
 ---
 
@@ -58,45 +72,29 @@ The scope provides IP addresses to all devices connected to the internal network
 
 The following DHCP options were configured:
 
-| Option | Purpose |
-|---------|---------|
-| Router (Default Gateway) | pfSense LAN Interface |
-| DNS Server | Windows Server Domain Controller |
-| DNS Domain | home.lab |
+| Option | Value | Purpose |
+|---------|-------|---------|
+| Router (Default Gateway) | 192.168.1.1 | pfSense LAN interface |
+| DNS Server | 192.168.1.10 | Windows Server Domain Controller |
+| DNS Domain | home.lab | Internal domain name |
 
-These options ensure that every client receives the correct network configuration automatically.
-
----
-
-# Lease Configuration
-
-DHCP leases are assigned automatically when clients join the network.
-
-The default lease duration provided by Windows Server is sufficient for the current laboratory environment.
+The **DNS server handed out is the Domain Controller, not pfSense**. This is essential in
+an Active Directory environment: clients must use the DC for DNS so they can resolve the
+domain's SRV records and locate domain services (Kerberos and LDAP). If clients used
+pfSense for DNS, domain join and authentication would fail.
 
 ---
 
-# DHCP Reservations
+# Static Addressing
 
-No DHCP reservations have been configured in the current version of the laboratory.
+Core infrastructure uses fixed addresses so that services remain reachable at a known IP:
 
-At this stage, dynamic address allocation fully satisfies the requirements of the environment.
+| Host | IP |
+|------|-----|
+| pfSense (LAN) | 192.168.1.1 |
+| Domain Controller | 192.168.1.10 |
 
-Future versions may introduce reservations for infrastructure servers or other devices requiring fixed IP addresses.
-
----
-
-# Address Assignment
-
-Each client automatically receives:
-
-- IPv4 Address
-- Subnet Mask
-- Default Gateway
-- DNS Server
-- DNS Suffix
-
-This eliminates manual network configuration and ensures consistent settings across all systems.
+Dynamic clients receive the remaining addresses from the DHCP scope.
 
 ---
 
@@ -104,13 +102,13 @@ This eliminates manual network configuration and ensures consistent settings acr
 
 The DHCP deployment was validated by confirming:
 
-- Successful IP address assignment
-- Successful gateway configuration
-- Successful DNS configuration
-- Successful communication with the Domain Controller
-- Successful Internet connectivity through pfSense
+- Successful IP address assignment on the client
+- Correct gateway (192.168.1.1)
+- Correct DNS server (the Domain Controller)
+- Successful domain authentication
+- Internet connectivity through pfSense
 
-Validation commands:
+Validation commands (Windows client):
 
 ```powershell
 ipconfig /all
@@ -126,16 +124,15 @@ ipconfig /renew
 
 This module provided practical experience with:
 
-- Windows DHCP Server
-- DHCP Scopes
-- Scope Options
-- Automatic Address Assignment
-- Enterprise Network Configuration
-- DHCP Troubleshooting
+- DHCP on pfSense
+- DHCP scopes and options
+- Serving the correct DNS server for Active Directory
+- Avoiding duplicate DHCP servers on a single network
+- Planning static vs dynamic addressing
 
 ---
 
 # References
 
-- Microsoft Learn
-- Windows Server DHCP Documentation
+- pfSense Documentation
+- Microsoft Learn — DNS requirements for Active Directory

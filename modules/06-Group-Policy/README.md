@@ -2,225 +2,164 @@
 
 ## Overview
 
-Group Policy was implemented to centrally manage user and computer configurations across the Active Directory domain.
+Group Policy centrally manages user and computer configuration across the Active
+Directory domain. By applying Group Policy Objects (GPOs), security settings and
+administrative configuration are enforced automatically on every domain-joined system,
+without manual configuration.
 
-By applying Group Policy Objects (GPOs), administrative settings can be enforced automatically without requiring manual configuration on individual systems. This approach simplifies administration, improves consistency and strengthens the overall security posture of the environment.
-
----
-
-# Why Group Policy
-
-Group Policy is one of the most powerful features of Active Directory.
-
-It allows administrators to centrally manage security settings, desktop configuration, software behavior and user restrictions while ensuring that every domain-joined computer follows the same policies.
-
-For this laboratory, Group Policy was used to simulate common enterprise administration tasks.
+The hardening in this environment is **split across several GPOs by function** (NTLM,
+SMB, auditing, firewall) rather than being combined into a single object. This keeps each
+policy focused and easy to target to the right scope.
 
 ---
 
 # Group Policy Processing
 
-Windows processes Group Policies using the standard Active Directory hierarchy.
+Windows processes policies using the standard Active Directory hierarchy:
 
 1. Local Group Policy
 2. Site
 3. Domain
 4. Organizational Unit (OU)
 
-When multiple policies are applied, the most specific policy takes precedence unless inheritance or enforcement settings are configured differently.
+When several policies apply, the most specific (closest to the object) wins unless
+inheritance or enforcement is configured otherwise.
 
 ---
 
 # Implemented Group Policy Objects
 
-The following Group Policy Objects were implemented throughout the laboratory.
+The following GPOs are deployed. Each is linked only where it should apply.
 
-| GPO | Purpose | Target |
-|-----|---------|--------|
-| Default Domain Policy | Password Policy & Account Lockout | Domain |
-| Default Domain Controllers Policy | Default Domain Controller Configuration | Domain Controllers |
-| GPO - Desktop Settings | Wallpaper and Lock Screen | Employees/IT |
-| GPO - IT Users | User Configuration | Employees/IT |
-| GPO - CMD Restriction | Restrict Command Prompt | Restricted Users |
-| Domain Controllers | Domain Controller Security Hardening | Domain Controllers |
-
----
-
-# Organizational Unit Linking
-
-The implemented Group Policies were linked to specific Organizational Units to ensure that settings only affected their intended users or computers.
-
-| GPO | Linked To |
-|-----|-----------|
-| GPO - Desktop Settings | Employees/IT |
-| GPO - IT Users | Employees/IT |
-| GPO - CMD Restriction | Restricted Users |
-| Domain Controllers | Domain Controllers |
-
-This approach demonstrates how Group Policy can be scoped to different departments while maintaining centralized administration.
+| GPO | Purpose | Linked to |
+|-----|---------|-----------|
+| Default Domain Policy | Password & account lockout policy | Domain |
+| Default Domain Controllers Policy | Domain controller security (LDAP signing, SMB signing, secure channel) | Domain Controllers |
+| GPO - NTLM Hardening | NTLMv2 enforcement, LDAP signing, channel binding, NTLM auditing, AutoPlay off, PowerShell logging | Domain |
+| GPO - SMB Hardening | SMB signing (client and server) | Domain Controllers + Workstations |
+| GPO - Audit Policy | Advanced audit configuration | Domain Controllers + Workstations |
+| GPO - Windows Firewall | Windows Defender Firewall baseline | Workstations |
+| GPO - Desktop Settings | Screen lock on inactivity | Company-Users |
+| GPO - IT Users | Restrict access to Command Prompt | Company-Users/IT |
+| MapContabilidade | Map a department network drive | Company-Users/Contabilidade |
 
 ---
 
-# Desktop Settings
+# Password Policy (Default Domain Policy)
 
-A dedicated Group Policy Object was created to standardize the desktop appearance across managed devices.
-
-The policy configures both the desktop wallpaper and the lock screen using centrally stored resources hosted on the Domain Controller.
-
-This ensures a consistent user experience throughout the environment.
-
----
-
-## Wallpaper Policy
-
-The desktop wallpaper is deployed automatically through Group Policy.
-
-The wallpaper image is stored within a shared folder on the Domain Controller, allowing every targeted client to retrieve the same image during Group Policy processing.
-
-Validation included:
-
-- Successful wallpaper deployment
-- Automatic application after user logon
-- Centralized management
-
-> *(Screenshot of deployed wallpaper will be added here.)*
+| Setting | Value |
+|---------|-------|
+| Minimum password length | 12 characters |
+| Password complexity | Enabled |
+| Enforce password history | 10 passwords |
+| Maximum password age | 90 days |
+| Store passwords using reversible encryption | Disabled |
 
 ---
 
-## Lock Screen Policy
+# Account Lockout Policy (Default Domain Policy)
 
-The lock screen image is deployed through the same Group Policy Object.
+| Setting | Value |
+|---------|-------|
+| Account lockout threshold | 5 invalid attempts |
+| Account lockout duration | 15 minutes |
+| Reset account lockout counter after | 15 minutes |
 
-This guarantees that managed computers display a standardized lock screen without requiring manual configuration.
-
-Validation included:
-
-- Successful lock screen deployment
-- Automatic application after policy refresh
-
-> *(Screenshot of deployed lock screen will be added here.)*
+These settings reduce the risk of password-guessing and brute-force attacks.
 
 ---
 
-# Shared Folder
+# Domain Controller Hardening (Default Domain Controllers Policy)
 
-A shared folder was created on the Domain Controller to centrally host enterprise resources.
+Configured directly on the Domain Controllers OU so it applies with the correct
+precedence on the DCs:
 
-This shared folder is currently used to store the wallpaper image deployed through Group Policy.
-
-Validation included:
-
-- Successful SMB share creation
-- Successful client access
-- Successful Group Policy access
-
-> *(Screenshot of shared folder configuration will be added here.)*
+- **LDAP server signing requirements: Require signing**
+- SMB server signing (always / if client agrees)
+- Secure channel data digitally encrypted or signed (always)
 
 ---
 
-# Command Prompt Restriction
+# NTLM Hardening
 
-A dedicated Group Policy was created to restrict access to the Windows Command Prompt for selected users.
+Applied at the domain level:
 
-The policy is linked only to the **Restricted Users** Organizational Unit, ensuring that other users remain unaffected.
-
-Validation included:
-
-- Command Prompt successfully blocked
-- Restriction applied only to targeted users
-
-> *(Screenshot of Command Prompt restriction will be added here.)*
+- **LAN Manager authentication level:** Send NTLMv2 response only, refuse LM & NTLM
+- **LDAP client signing:** Require signing
+- **LDAP channel binding:** Always
+- **Restrict NTLM:** auditing enabled (incoming and in-domain)
+- AutoPlay / AutoRun disabled on all drives
+- PowerShell **Module Logging** and **Script Block Logging** enabled
 
 ---
 
-# Password Policy
+# SMB Hardening
 
-The laboratory uses the password policy configured through the **Default Domain Policy**.
-
-The policy enforces centralized password requirements across the domain.
-
-Configured settings include:
-
-- Password complexity
-- Password history
-- Minimum password length
-- Maximum password age
+SMB signing is enforced on both the client and the server side, protecting file-sharing
+traffic against tampering and relay (man-in-the-middle) attacks.
 
 ---
 
-# Account Lockout Policy
+# Windows Auditing (Advanced Audit Policy)
 
-Account lockout settings were configured to reduce the risk of password guessing attacks.
+Linked to Domain Controllers and Workstations, with *Force audit policy subcategory
+settings* enabled. Audited subcategories include:
 
-The policy automatically locks user accounts after repeated failed authentication attempts.
-
-Configured settings include:
-
-- Account lockout threshold
-- Lockout duration
-- Reset account lockout counter
-
----
-
-# PowerShell Logging
-
-PowerShell logging was enabled through Group Policy to improve visibility into PowerShell activity.
-
-The following logging features were implemented:
-
-- Module Logging
-- Script Block Logging
-
-These settings provide valuable information during security investigations and administrative troubleshooting.
-
-Validation command:
-
-```powershell
-Get-WinEvent -LogName "Microsoft-Windows-PowerShell/Operational" -MaxEvents 10
-```
-
-> *(Screenshot of PowerShell Operational Log will be added here.)*
-
----
-
-# Windows Auditing
-
-Advanced Audit Policy Configuration was implemented to improve monitoring of security-related events.
-
-The laboratory currently audits:
-
+- Credential Validation
+- Security Group Management
 - Process Creation
 - Directory Service Changes
-- Logon Events
-- Security Group Management
-- Credential Validation
+- Logon / Logoff / Special Logon
+- File System
+- Audit Policy Change
+- Sensitive Privilege Use
 
-Validation command:
-
-```powershell
-auditpol /get /category:*
-```
-
-> *(Screenshot of audit policy output will be added here.)*
+These events feed the centralised monitoring platform.
 
 ---
 
-# Security Baseline
+# Windows Firewall
 
-The following security controls were implemented through Group Policy.
+Linked to Workstations:
 
-| Security Control | Status |
-|------------------|--------|
-| Desktop Wallpaper | ✅ Implemented |
-| Lock Screen | ✅ Implemented |
-| Command Prompt Restriction | ✅ Implemented |
-| Password Policy | ✅ Implemented |
-| Account Lockout Policy | ✅ Implemented |
-| PowerShell Module Logging | ✅ Implemented |
-| PowerShell Script Block Logging | ✅ Implemented |
-| Windows Auditing | ✅ Implemented |
+- Firewall state: On
+- Inbound connections: Block
+- Outbound connections: Allow
+- Protect all network connections: Enabled
 
-These policies demonstrate centralized administration while improving the security posture of the Active Directory environment.
+---
+
+# Desktop Settings (Screen Lock)
+
+Linked to Company-Users. Enforces a password-protected screen saver after **600 seconds**
+of inactivity, locking the session automatically.
+
+---
+
+# Command Prompt Restriction (GPO - IT Users)
+
+Linked to the **Company-Users/IT** OU. Restricts access to the Windows Command Prompt for
+users in that OU, demonstrating how a policy can be scoped to a single department.
+
+> Note: the restriction does not block Windows PowerShell.
+
+---
+
+# Department Drive Mapping (MapContabilidade)
+
+Linked to the **Company-Users/Contabilidade** OU. Uses Group Policy Preferences to map a
+network drive automatically for Accounting users:
+
+| Setting | Value |
+|---------|-------|
+| Drive letter | S: |
+| Location | `\\DC01\Contabilidade` |
+| Action | Update |
+| Reconnect | Enabled |
+| Label | Contabilidade |
+
+This demonstrates automatic, per-department drive mapping — a very common enterprise
+administration task.
 
 ---
 
@@ -228,14 +167,12 @@ These policies demonstrate centralized administration while improving the securi
 
 The Group Policy deployment was validated by confirming:
 
-- Successful Group Policy processing
-- Successful GPO application
-- Successful wallpaper deployment
-- Successful lock screen deployment
-- Successful shared folder access
-- Successful Command Prompt restriction
-- Successful PowerShell logging
-- Successful Windows auditing
+- Successful GPO processing and application
+- Password and lockout policy enforced
+- Screen lock applied after inactivity
+- Command Prompt restriction applied only to the IT OU
+- Department drive mapped automatically for Accounting users
+- PowerShell logging and advanced auditing operational
 
 Validation commands:
 
@@ -247,8 +184,6 @@ gpresult /r
 gpresult /h report.html
 
 auditpol /get /category:*
-
-Get-WinEvent -LogName "Microsoft-Windows-PowerShell/Operational" -MaxEvents 10
 ```
 
 ---
@@ -257,15 +192,13 @@ Get-WinEvent -LogName "Microsoft-Windows-PowerShell/Operational" -MaxEvents 10
 
 This module provided practical experience with:
 
-- Active Directory Group Policy
-- Organizational Unit design
-- Centralized administration
-- Enterprise policy deployment
-- Desktop standardization
-- Windows security configuration
-- PowerShell logging
+- Active Directory Group Policy and OU-scoped linking
+- Organising hardening by function across multiple GPOs
+- Password, lockout and Kerberos policy
+- NTLM, SMB and LDAP hardening
 - Advanced Windows auditing
-- Group Policy troubleshooting
+- Group Policy Preferences (drive mapping)
+- Group Policy troubleshooting and reporting
 
 ---
 
@@ -273,4 +206,4 @@ This module provided practical experience with:
 
 - Microsoft Learn
 - Windows Group Policy Documentation
-- Windows Security Documentation
+- Microsoft Security Baselines

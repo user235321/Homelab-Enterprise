@@ -27,20 +27,22 @@ The primary objectives of this laboratory are:
 
 # Infrastructure Overview
 
-The laboratory currently consists of four virtual machines running inside VMware Workstation Pro.
+The laboratory currently consists of six virtual machines running inside VMware Workstation Pro.
 
 | Virtual Machine | Purpose |
 |-----------------|---------|
-| pfSense | Firewall and Gateway |
-| Windows Server | Domain Controller |
-| Windows 11 Enterprise | Domain Client |
-| Ubuntu Server | Linux Server |
+| pfSense | Firewall and Gateway (DHCP, NAT, routing) |
+| Windows Server 2022 | Domain Controller (Active Directory, DNS, GPO) |
+| Windows 11 Enterprise | Domain client endpoint (Wazuh agent) |
+| Ubuntu Server | Storage server (RAID 5 + LVM + NFS) |
+| Wazuh | Centralised logging and monitoring |
+| Kali Linux | Security testing / attacker |
 
 ---
 
 # Project Architecture
 
-> **Architecture diagram will be added here**
+![Enterprise Architecture](../../diagrams/Arquitetura.drawio.png)
 
 ---
 
