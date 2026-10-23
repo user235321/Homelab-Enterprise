@@ -6,6 +6,23 @@ This project follows a continuous improvement approach as new infrastructure com
 
 ---
 
+## [1.1.0] - 2026-10-23
+
+### Added
+
+- Ubuntu storage server: software RAID 5 (mdadm) + LVM + NFS, with a disk-failure and rebuild test
+- Wazuh module: centralised logging, detection, active response, Sysmon and SCA
+- Attack Scenarios module: Kali intrusion testing and defence validation
+
+### Changed
+
+- DHCP documented on pfSense (previously stated as the Domain Controller)
+- Group Policy updated to the real 9 GPOs, with LDAP signing enforced and department drive mapping
+- Active Directory updated with the real OU structure and Windows Server 2022
+- Overview updated to six virtual machines
+
+---
+
 ## [1.0.0] - Initial Release
 
 ### Added
