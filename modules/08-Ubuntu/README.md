@@ -118,6 +118,21 @@ sudo exportfs -ra
 sudo systemctl enable --now nfs-server
 ```
 
+## NFS client access (Linux)
+
+The share is exported to the internal LAN and can be mounted from any Linux client on
+`192.168.1.0/24` (for example the Kali VM):
+
+```bash
+sudo apt install -y nfs-common
+sudo mkdir -p /mnt/nfs
+sudo mount -t nfs <UBUNTU_IP>:/srv/storage/share /mnt/nfs
+echo "NFS test from client" | sudo tee /mnt/nfs/client_test.txt
+```
+
+A file written here appears on the server in `/srv/storage/share`, confirming read/write
+access over NFS.
+
 ---
 
 # Fault-Tolerance Test (Disk Failure and Rebuild)
@@ -161,6 +176,22 @@ The storage deployment was validated by confirming:
 - The mount survives a reboot automatically (RAID in mdadm.conf + initramfs, mount by UUID)
 - With one disk failed, the array ran degraded and the data stayed readable and verified
 - After replacing the disk, the array rebuilt to clean and the data was still intact
+
+---
+
+# Evidence
+
+| Step | Screenshot |
+|------|------------|
+| Data disks added (`lsblk`) | ![disks](images/01-disks-added.png) |
+| RAID 5 created and synced (`[3/3] [UUU]`) | ![raid created](images/02-raid-created.png) |
+| LVM (`pvs` / `vgs` / `lvs`) | ![lvm](images/03-lvm.png) |
+| Persistent mount (`/etc/fstab` + `df -h`) | ![mount](images/04-mount-fstab.png) |
+| Mount survives reboot (`df -h` + `/proc/mdstat`) | ![persistence](images/05-persistence-after-reboot.png) |
+| NFS export (`exportfs -v`) | ![nfs export](images/06-nfs-export.png) |
+| Disk failure — array degraded (`[3/2] [U_U]`) | ![degraded](images/07-raid-degraded.png) |
+| Data intact while degraded (`sha256sum -c` OK) | ![checksum degraded](images/08-checksum-ok-while-degraded.png) |
+| Rebuilt to clean, data still intact (`sha256sum -c` OK) | ![rebuilt](images/09-raid-rebuilt-clean.png) |
 
 ---
 

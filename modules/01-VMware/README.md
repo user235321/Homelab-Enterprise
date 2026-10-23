@@ -37,7 +37,7 @@ VMware Workstation Pro was chosen because it provides:
 | pfSense | 2 | 4 GB | 20 GB |
 | Windows Server | 2 | 4 GB | 60 GB |
 | Windows 11 Enterprise | 2 | 4 GB | 60 GB |
-| Ubuntu Server | 2 | 4 GB | 20 GB |
+| Ubuntu Server | 2 | 4 GB | 20 GB (system) + 4 × 10 GB (data: RAID 5 + spare) |
 
 ---
 
