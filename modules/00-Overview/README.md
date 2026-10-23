@@ -97,8 +97,10 @@ All internal communication between the virtual machines takes place through the 
 | 05 - DHCP | Address assignment |
 | 06 - Group Policy | Centralized management |
 | 07 - Windows Hardening | Security baseline |
-| 08 - Ubuntu | Linux server |
+| 08 - Ubuntu | Ubuntu storage server (RAID 5 + LVM + NFS) |
 | 09 - Troubleshooting | Problems and solutions |
+| 10 - Wazuh | Centralised logging, detection and response |
+| 11 - Attack Scenarios | Kali intrusion testing and defence validation |
 
 ---
 
