@@ -54,7 +54,7 @@ Two virtual networks were configured.
 
 # VMware Network Editor
 
-Thenfigure the n VMware Virtual Network Editor was used to coetworking environment.
+The VMware Virtual Network Editor was used to configure the networking environment.
 
 Configuration summary:
 

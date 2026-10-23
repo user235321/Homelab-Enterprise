@@ -23,7 +23,8 @@ A single forest was deployed for the laboratory.
 | Property | Value |
 |----------|-------|
 | Forest Name | home.lab |
-| Forest Functional Level | Windows Server 2025 |
+| Domain Controller OS | Windows Server 2022 |
+| Forest Functional Level | Windows Server 2016 |
 
 The forest represents the highest security boundary within the environment and contains all domain resources.
 
@@ -62,10 +63,19 @@ The directory was organized using Organizational Units to simplify administratio
 
 Current Organizational Units:
 
-- Employees
-- IT
+- **Admin-Accounts** — dedicated administrative accounts
+- **Company-Users** — standard users, with department sub-OUs:
+  - Contabilidade (Accounting)
+  - HR
+  - IT
+  - Management
+- **Workstations** — domain-joined client computers
+- **Groups** — security groups
+- **Domain Controllers** — the DC(s)
 
-The OU structure allows policies to be applied only where required while keeping the directory organized.
+The OU structure allows policies to be applied only where required (for example, the
+Command Prompt restriction on the IT OU and the department drive mapping on the
+Contabilidade OU) while keeping the directory organized.
 
 ---
 
@@ -75,11 +85,12 @@ User accounts were created to simulate a small enterprise environment.
 
 Examples include:
 
-- Administrator
-- adm.Rodrigo
-- Tomás Silva
+- Administrator (built-in, emergency use)
+- adm.rodrigo (dedicated administrative account, in Admin-Accounts)
+- Standard users placed in their department OU (e.g. Ana Costa in Contabilidade)
 
-Different accounts were created to separate administrative tasks from standard user activities.
+Different accounts were created to separate administrative tasks from standard user
+activities, following the principle of least privilege.
 
 ---
 
@@ -119,7 +130,7 @@ After joining the domain, authentication is performed using domain credentials, 
 
 # Active Directory Structure
 
-> **Active Directory diagram will be added here**
+![Active Directory Structure](../../diagrams/ActiveDirectory.drawio.png)
 
 ---
 
