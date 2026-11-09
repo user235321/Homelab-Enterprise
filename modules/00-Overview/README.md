@@ -34,7 +34,7 @@ The laboratory currently consists of six virtual machines running inside VMware 
 | pfSense | Firewall and Gateway (DHCP, NAT, routing) |
 | Windows Server 2022 | Domain Controller (Active Directory, DNS, GPO) |
 | Windows 11 Enterprise | Domain client endpoint (Wazuh agent) |
-| Ubuntu Server | Storage server (RAID 5 + LVM + NFS) |
+| Ubuntu Server | Linux server |
 | Wazuh | Centralised logging and monitoring |
 | Kali Linux | Security testing / attacker |
 
@@ -97,7 +97,7 @@ All internal communication between the virtual machines takes place through the 
 | 05 - DHCP | Address assignment |
 | 06 - Group Policy | Centralized management |
 | 07 - Windows Hardening | Security baseline |
-| 08 - Ubuntu | Ubuntu storage server (RAID 5 + LVM + NFS) |
+| 08 - Ubuntu | Linux server |
 | 09 - Troubleshooting | Problems and solutions |
 | 10 - Wazuh | Centralised logging, detection and response |
 | 11 - Attack Scenarios | Kali intrusion testing and defence validation |

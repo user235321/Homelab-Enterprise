@@ -10,7 +10,6 @@ This project follows a continuous improvement approach as new infrastructure com
 
 ### Added
 
-- Ubuntu storage server: software RAID 5 (mdadm) + LVM + NFS, with a disk-failure and rebuild test
 - Wazuh module: centralised logging, detection, active response, Sysmon and SCA
 - Attack Scenarios module: Kali intrusion testing and defence validation
 

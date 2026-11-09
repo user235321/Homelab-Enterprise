@@ -47,8 +47,8 @@ Only one DHCP server is active on the internal network, which prevents address c
 +----------------------+                 +----------------------+
 ```
 
-Infrastructure servers that must keep a fixed address (the Domain Controller, the
-monitoring server and the storage server) use **static IP addresses** outside the
+Infrastructure servers that must keep a fixed address (the Domain Controller and the
+monitoring server) use **static IP addresses** outside the
 dynamic range, rather than DHCP.
 
 ---
